@@ -1,6 +1,7 @@
 package com.sasekani.budget_management_system.service;
 
 import com.sasekani.budget_management_system.entity.Category;
+import com.sasekani.budget_management_system.entity.CategoryType;
 import com.sasekani.budget_management_system.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,10 @@ public class CategoryService {
         existingCategory.setType(updatedCategory.getType());
 
         return categoryRepository.save(existingCategory);
+    }
+
+    public List<Category> getCategoriesByType(CategoryType type) {
+        return categoryRepository.findByType(type);
     }
 
     public void deleteCategory(Long id){
