@@ -20,7 +20,7 @@ public class User {
     @Column(nullable=false, unique=true)
     private String email;
 
-    @Column(nullable=false)
-    private LocalDateTime createAt;
+    @Column(name= "created_at", nullable=false)
+    private LocalDateTime createdAt;
 
 }
