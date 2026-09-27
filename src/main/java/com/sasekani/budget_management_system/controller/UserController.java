@@ -1,7 +1,12 @@
 package com.sasekani.budget_management_system.controller;
 
+import com.sasekani.budget_management_system.dto.UserRequestDTO;
+import com.sasekani.budget_management_system.dto.UserResponseDTO;
 import com.sasekani.budget_management_system.entity.User;
 import com.sasekani.budget_management_system.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,27 +22,41 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user){
-        return userService.createUser(user);
+    public ResponseEntity<UserResponseDTO> createUser(
+            @Valid @RequestBody UserRequestDTO userRequestDTO) {
+
+        UserResponseDTO createdUser = userService.createUser(userRequestDTO);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<UserResponseDTO> getUserById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user){
-        return userService.updateUser(id, user);
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UserRequestDTO userRequestDTO) {
+
+        return ResponseEntity.ok(
+                userService.updateUser(id, userRequestDTO)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable Long id) {
+
         userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
